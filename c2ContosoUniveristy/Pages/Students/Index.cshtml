@@ -1,0 +1,87 @@
+﻿@page
+@model c2ContosoUniveristy.Pages.Students.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+
+    string sortOrder = String.IsNullOrEmpty(HttpContext.Request.Query["SortOrder"]) ? "" :  "SortOrder=" + HttpContext.Request.Query["SortOrder"].ToString();
+
+    
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a aps-page="./Index" asp-route-SortOrder="@Model.NameSort"
+                    asp-route-SearchField="@HttpContext.Request.Query["SearchField"]" asp-route-SearchQuery="@HttpContext.Request.Query["SearchQuery"]" >
+                    @Html.DisplayNameFor(model => model.Student[0].LastName)
+                </a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Student[0].FirstMidName)
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-SortOrder="@Model.DateSort"
+                    asp-route-SearchField="@HttpContext.Request.Query["SearchField"]" asp-route-SearchQuery="@HttpContext.Request.Query["SearchQuery"]" >
+                    @Html.DisplayNameFor(model => model.Student[0].EnrollmentDate)
+                </a>
+            </th>
+            <th>Enrollments</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Student)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstMidName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EnrollmentDate)
+            </td>
+            <td>
+                @foreach (var enrollment in item.Enrollments)
+                {
+                    @*@enrollment.Grade로  표현시 NoGrade가 표현안됨*@ 
+                    @enrollment.Course.Title @::  @Html.DisplayFor(modelItem => enrollment.Grade) <br />
+                }
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.ID" asp-route-path="@HttpContext.Request.QueryString">Edit</a> |
+                @*<a href='./Details/@item.ID@(@HttpContext.Request.QueryString)'>Details</a>*@
+                <a asp-page="./Details" asp-route-id="@item.ID" asp-route-path="@HttpContext.Request.QueryString">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+
+<div class="text-center">
+    <paging3 url="@HttpContext.Request.Path"
+            page-index="@Model.PageIndex"
+            page-size=3
+            page-etc='@sortOrder'
+            record-count=@Model.TotalCount
+            page-counter=5
+            search-mode='@Convert.ToBoolean(Model.SearchMode)'
+            search-field='@HttpContext.Request.Query["SearchField"]'
+            search-query='@HttpContext.Request.Query["SearchQuery"]'>
+    </paging3>
+</div>
+
+<div class="text-center">
+    @await Component.InvokeAsync("Searching", Model.SearchMode)
+
+</div>

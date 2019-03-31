@@ -1,0 +1,60 @@
+﻿@page "{id:int?}"
+@model c2ContosoUniveristy.Pages.Students.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Student</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Student.LastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Student.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Student.FirstMidName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Student.FirstMidName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Student.EnrollmentDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Student.EnrollmentDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Student.Enrollments)
+        </dt>
+        <dd>
+            <table class="table">
+                <tr>
+                    <th>Course Title</th>
+                    <th>Grade</th>
+                </tr>
+                @foreach (var item in Model.Student.Enrollments)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem=>item.Course.Title)</td>
+                        <td>@Html.DisplayFor(modelItem=>item.Grade)</td>
+                    </tr>
+                }
+
+            </table>
+        </dd>
+    </dl>
+</div>
+<div>
+
+    <a asp-page="./Edit" asp-route-id="@Model.Student.ID" asp-route-path="@(System.Web.HttpUtility.UrlDecode(Request.Query["Path"].ToString()))">Edit</a> |
+    @*라우트 규칙을 {int id?}을 사용시 /id로 경로로 인식되어 ..를 사용*@
+    <a href='../Index@(System.Web.HttpUtility.UrlDecode(Request.Query["Path"].ToString()))'>Back to List</a>
+
+</div>

@@ -1,0 +1,31 @@
+﻿@page "{id:int?}"
+@model c2ContosoUniveristy.Pages.Students.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2> 
+
+<h4>Student / @DataModels.FrmTypeExtensions.ToFriendlyString(Model.studentFrm.frmType)</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+
+            @await Component.InvokeAsync("StudentForm", Model.studentFrm)
+
+        </form>
+    </div>
+</div>
+
+<div>
+
+    @*라우트 규칙을 {int id?}을 사용시 /id로 경로로 인식되어 ..를 사용*@
+    <a href='../Index@(System.Web.HttpUtility.UrlDecode(Request.Query["Path"].ToString()))'>Back to List</a>
+    @*<a asp-page="./Index">Back to List</a>*@
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

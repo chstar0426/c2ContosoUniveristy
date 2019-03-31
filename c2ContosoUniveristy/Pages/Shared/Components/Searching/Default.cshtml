@@ -1,0 +1,21 @@
+﻿@model bool
+
+<form asp-page="./index" method="get">
+
+    <select name="SearchField" id="SearchField" class="form-control" style="width:100px;display:inline-block;">
+        <option value="Name">이름</option>
+        <option value="etc">기타</option>
+    </select>
+
+    <input type="text" id="SearchQuery" name="SearchQuery" value="" class="form-control" style="width:200px;display:inline-block" />
+    <input type="submit" value="검색" class="form-control" style="width:100px;display:inline-block" />
+    @if (Model)
+    {
+        
+        @*<a href="./Index" class="btn btn-success" style="display:inline-block">완료</a>*@
+        <a asp-page="./Index" class="btn btn-success" style="display:inline-block">완료</a>
+
+    }
+
+</form>
+

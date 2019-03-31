@@ -1,0 +1,21 @@
+﻿@model DataModels.Course
+
+<h3>
+   Componet를 이용한 출력
+</h3>
+
+<table class="table">
+
+    <tr>
+        <th>Name</th>
+        <th>Grade</th>
+    </tr>
+
+    @foreach (var item in Model.Enrollments)
+    {
+        <tr>
+            <td>@item.Student.FullName</td>
+            <td>@item.Grade</td>
+        </tr>
+    }
+</table>
